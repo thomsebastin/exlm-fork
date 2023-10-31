@@ -1,4 +1,5 @@
 @import './sass/breakpoints';
+@import './sass/typography';
 
 :root {
   /* colors */
@@ -8,12 +9,17 @@
   --overlay-background-color: #eee;
   --highlight-background-color: #ccc;
   --text-color: #000;
+  --footer-background-color: #fafafa;
+  --footer-border-color: #e1e1e1;
 
   /* fonts */
-  --body-font-family: adobe-clean, roboto, roboto-fallback;
+  --body-font-family: 'Adobe Clean', adobe-clean, 'Source Sans Pro',
+    -apple-system, system-ui, 'Segoe UI', roboto, ubuntu, 'Trebuchet MS',
+    'Lucida Grande', sans-serif;
   --heading-font-family: var(--body-font-family);
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono',
     monospace;
+  --spectrum-code-font-family: 'Source Code Pro', 'monaco', monospace;
 
   /* default font sizes */
   --spectrum-font-size-50: 11px;
@@ -31,6 +37,27 @@
   --spectrum-font-size-1100: 45px;
   --spectrum-font-size-1200: 50px;
   --spectrum-font-size-1300: 60px;
+
+  /* exlm dev.corp font values */
+  --exlm-font-size-h1: 28px;
+  --exlm-font-size-h2: 24px;
+  --exlm-font-size-h3: 20px;
+  --exlm-font-size-p: 16px;
+
+  /* font weight */
+  --font-weight-900: 900;
+  --font-weight-700: 700;
+  --font-weight-600: 600;
+  --font-weight-400: 400;
+  --spectrum-extra-bold-font-weight: 800;
+
+  /* line height */
+  --spectrum-line-height-xxxl: 57.2px;
+  --spectrum-line-height-xxl: 36.4px;
+  --spectrum-line-height-xl: 28.6px;
+  --spectrum-line-height-l: 27px;
+  --spectrum-line-height-m: 25.6px;
+  --spectrum-line-height-s: 19.2px;
 
   /* heading font sizes */
   --spectrum-heading-size-xxxl: var(--spectrum-font-size-1300);
@@ -238,16 +265,70 @@
   --spectrum-yellow-1100: #5b4300;
   --spectrum-yellow-1200: #483300;
   --spectrum-yellow-1300: #362500;
+  --spectrum-global-color-gray-900-rgb: 0, 0, 0;
+
+  /* spectrum spacing */
+  --spectrum-spacing-400: 24px;
+  --spectrum-spacing-500: 32px;
+  --spectrum-spacing-600: 40px;
+  --spectrum-spacing-700: 48px;
+
+  /* mini toc spectrum vars */
+  --spectrum-sidenav-item-background-color-hover: ButtonFace;
+  --spectrum-alias-highlight-hover: rgb(0 0 0 / 6%);
+  --spectrum-sidenav-item-text-color-hover: ButtonText;
+  --spectrum-alias-text-color-hover: var(--spectrum-global-color-gray-900);
 
   /* Non-Spectrum custom colors */
   --non-spectrum-eerie-black: #1e1e1e;
+  --non-spectrum-custom-dark: #363636;
+  --non-spectrum-dark-charcoal: #323232;
   --non-spectrum-true-blue: #0469e3;
   --non-spectrum-tawny-orange: #d16100;
   --non-spectrum-ue-red: #bb0202;
   --non-spectrum-viridian: #007e50;
+  --non-spectrum-grey: #4a4a4a;
+  --non-spectrum-grey-updated: #6e6e6e;
+  --non-spectrum-link: #378ef0;
+  --non-spectrum-navy-blue: #1473e6;
+  --non-spectrurm-article-light-gray: #d3d3d3;
+  --non-spectrurm-article-dark-gray: #505050;
+  --non-spectrum-bg: #fafafa;
+  --non-spectrum-hover-bg: #f5f5f5;
+  --non-spectrum-input-text: #4b4b4b;
+  --non-spectrum-dark-gray: #2c2c2c;
+  --non-spectrum-charcoal-gray: #505050;
+  --non-spectrum-graphite-gray: #4b4b4b;
+  --non-spectrurm-whisper-gray: #eaeaea;
+  --non-spectrum-trolley-gray: #808080;
+  --non-spectrum-max-width: 1440px;
+
+  /* rgba transparent values */
+  --spectrum-button-background-color-default: rgb(0 0 0 / 0%);
+
+  /* Spacing Tokens */
+  --space-token-xxs: 8px;
+  --space-token-xs: 16px;
+  --space-token-s: 24px;
+  --space-token-m: 32px;
+  --space-token-l: 40px;
+  --space-token-xl: 56px;
+  --space-token-xxl: 80px;
+  --space-token-xxxl: 104px;
 
   /* Box Shadows */
   --box-shadow-1: 0 0.5em 1em -0.125em #0a0a0a1a, 0 0 0 1px #0a0a0a05;
+}
+
+@include breakpoint('desktop') {
+  :root {
+    /* exlm dev.corp font values */
+    --exlm-font-size-h1: 44px;
+    --exlm-font-size-h2: 28px;
+    --exlm-font-size-h3: 22px;
+    --exlm-font-size-h4: 18px;
+    --exlm-font-size-p: 16px;
+  }
 }
 
 @font-face {
@@ -257,8 +338,12 @@
   src: local('Arial');
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
 body {
-  font-size: var(--spectrum-body-size-l);
+  font-size: var(--spectrum-body-size-s);
   margin: 0;
   font-family: var(--body-font-family);
   line-height: 1.6;
@@ -275,36 +360,6 @@ header {
   height: var(--nav-height);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  scroll-margin: calc(var(--nav-height) + 1em);
-}
-
-h1 {
-  font-size: var(--spectrum-heading-size-xl);
-}
-
-h2 {
-  font-size: var(--spectrum-heading-size-l);
-}
-
-h3 {
-  font-size: var(--spectrum-heading-size-m);
-}
-
-h4 {
-  font-size: var(--spectrum-heading-size-s);
-}
-
 h5 {
   font-size: var(--spectrum-heading-size-xs);
 }
@@ -313,12 +368,8 @@ h6 {
   font-size: var(--spectrum-heading-size-xxs);
 }
 
-p,
 dl,
-ol,
-ul,
-pre,
-blockquote {
+pre {
   margin-top: 1em;
   margin-bottom: 1em;
 }
@@ -342,6 +393,16 @@ samp {
   padding: 0.125em;
 }
 
+code:not([class^='language-']) {
+  font-family: var(--spectrum-code-font-family);
+  font-size: var(--spectrum-body-size-s);
+  background-color: var(--spectrum-gray-100);
+  padding: 4px;
+  border: 1px solid var(--spectrum-gray-300);
+  border-radius: 4px;
+  line-height: 21px;
+}
+
 pre {
   overflow: scroll;
 }
@@ -355,13 +416,14 @@ main pre {
 }
 
 a:any-link {
-  color: var(--link-color);
+  @include text-styles($color: var(--non-spectrum-link));
+
+  cursor: pointer;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
-  color: var(--link-hover-color);
+  color: var(--non-spectrum-custom-dark);
 }
 
 /* buttons */
@@ -426,10 +488,8 @@ main input:hover {
 }
 
 main blockquote {
-  font-style: italic;
-  margin: 3rem;
-  text-indent: -1rem;
-  hanging-punctuation: first;
+  margin: 0;
+  color: var(--non-spectrum-grey);
 }
 
 main blockquote p::before {
@@ -440,6 +500,26 @@ main blockquote p::before {
 main blockquote p::after {
   content: '”';
   line-height: 0;
+}
+
+ol > li > p {
+  margin-bottom: 8px;
+}
+
+ul > li > p {
+  margin-bottom: 8px;
+}
+
+main blockquote > p:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+ol > li > blockquote > p:last-child {
+  margin-bottom: 0;
+}
+
+ul > li > blockquote > p:last-child {
+  margin-bottom: 0;
 }
 
 main img {
@@ -463,13 +543,13 @@ main .section {
   padding: 64px 16px;
 }
 
-@include breakpoint(mobile) {
+@include breakpoint(tablet) {
   main .section {
     padding: 64px 32px;
   }
 }
 
-@include breakpoint(tablet) {
+@include breakpoint(desktop) {
   .section > div {
     max-width: 1200px;
     margin: auto;
@@ -479,4 +559,213 @@ main .section {
 /* section metadata */
 main .section.highlight {
   background-color: var(--highlight-background-color);
+}
+
+.section > .default-content-wrapper:last-child > p:last-child {
+  margin-bottom: 0;
+}
+
+ol {
+  @include text-styles(
+    $margin-bottom: 2em,
+    $margin-top: 0,
+    $color: var(--non-spectrum-grey),
+    $line-height: 24px
+  );
+
+  margin-left: 28px;
+  list-style-type: decimal;
+  padding: 0;
+}
+
+ol > li:not(:last-child) {
+  margin-bottom: 14px;
+  color: inherit;
+}
+
+ol > li > ol {
+  margin-bottom: 14px;
+  list-style-type: lower-alpha;
+}
+
+ul {
+  @include text-styles(
+    $margin-top: 1em,
+    $margin-bottom: 2em,
+    $line-height: 24px,
+    $color: var(--non-spectrum-grey)
+  );
+
+  margin-left: 28px;
+  list-style-type: disc;
+  padding: 0;
+}
+
+ul > li:not(:last-child) {
+  margin-bottom: 0.875em;
+  color: inherit;
+}
+
+main .rail-mobile-section .rail-section-toggler {
+  display: none;
+}
+
+main button.rail-mobile-button {
+  border-radius: 4px;
+  background-color: var(--spectrum-gray-50);
+  color: var(--spectrum-gray-800);
+  border: 1px solid var(--spectrum-gray-400);
+  width: 72vw;
+  height: 48px;
+  margin: 0;
+  text-align: left;
+  display: none;
+}
+
+/* three column layout */
+main.three-col-layout {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 20% 1fr 20%;
+  max-width: 1700px;
+  margin: 0 auto;
+
+  .content-section {
+    width: auto;
+    overflow: auto;
+  }
+
+  & > .rail-section {
+    grid-column: 2/3;
+    position: relative;
+    display: flex;
+    gap: 8px;
+    padding: 0 16px;
+
+    .rail-section-wrapper {
+      overflow: auto;
+      width: 100%;
+      display: none;
+      margin: 0;
+    }
+
+    .rail-section-toggler {
+      position: absolute;
+      cursor: pointer;
+      top: 16px;
+
+      .icon-rail {
+        height: 16px;
+        width: 16px;
+      }
+    }
+
+    &-expanded {
+      .rail-section-wrapper {
+        display: block;
+      }
+
+      .rail-section-toggler {
+        .icon-rail {
+          transform: none;
+        }
+      }
+    }
+
+    &.rail-section-right {
+      grid-column: 3/4;
+      flex-direction: row-reverse;
+      padding: 0 16px 0 0;
+
+      .rail-section-toggler {
+        left: 0;
+
+        .icon-rail {
+          transform: none;
+        }
+      }
+    }
+
+    &.rail-section-left {
+      grid-column: 1/2;
+
+      .rail-section-toggler {
+        right: 20px;
+
+        .icon-rail {
+          transform: rotate(180deg);
+        }
+      }
+
+      &.rail-section-expanded {
+        @include breakpoint(desktop) {
+          border-right: 1px solid var(--non-spectrurm-whisper-gray);
+        }
+
+        .rail-section-toggler {
+          .icon-rail {
+            transform: none;
+          }
+        }
+      }
+    }
+
+    &.rail-section-expanded {
+      &.rail-section-right {
+        .rail-section-toggler {
+          .icon-rail {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+
+    &.rail-hidden {
+      display: none;
+    }
+  }
+}
+
+main .rail-mobile-section {
+  position: relative;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .rail-mobile-wrapper {
+    position: absolute;
+    display: none;
+    background-color: var(--spectrum-gray-50);
+    box-shadow:
+      0 0.5em 1em -0.125em #0a0a0a1f,
+      0 0 0 1px #0a0a0a17;
+    padding: 12px 24px;
+    border-radius: 8px;
+    left: 5%;
+    top: 90px;
+    width: 80%;
+
+    &-visible {
+      display: block;
+    }
+  }
+
+  button.rail-mobile-button {
+    display: block;
+    margin-top: 32px;
+    margin-bottom: 1px;
+  }
+}
+
+.article-metadata > div > div {
+  @include text-styles(
+    $font-size: var(--spectrum-font-size-75),
+    $line-height: var(--spectrum-line-height-s),
+    $color: var(--non-spectrum-grey-updated),
+    $margin-top: 4px,
+    $margin-bottom: 9px
+  );
 }

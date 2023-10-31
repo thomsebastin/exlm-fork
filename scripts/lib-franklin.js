@@ -443,7 +443,16 @@ export function updateSectionsStatus(main) {
         break;
       } else {
         section.dataset.sectionStatus = 'loaded';
-        section.style.display = null;
+        /**
+         * FIXME: All sections are loaded with first section
+         * to improve performance. Revisit this section and identify a proper
+         * fix.
+         * */
+        if (i === 0) {
+          sections.forEach((sec) => {
+            sec.style.display = null;
+          });
+        }
       }
     }
   }
@@ -711,7 +720,9 @@ export async function waitForLCP(lcpBlocks) {
   document.body.style.display = null;
   const lcpCandidate = document.querySelector('main img');
   await new Promise((resolve) => {
-    if (lcpCandidate && !lcpCandidate.complete) {
+    if (lcpCandidate && lcpCandidate.src === 'about:error')
+      resolve(); // error loading image
+    else if (lcpCandidate && !lcpCandidate.complete) {
       lcpCandidate.setAttribute('loading', 'eager');
       lcpCandidate.addEventListener('load', resolve);
       lcpCandidate.addEventListener('error', resolve);
